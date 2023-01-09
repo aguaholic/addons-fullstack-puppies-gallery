@@ -2,7 +2,7 @@ import express from 'express';
 import { Request, Response, Application } from 'express';
 import { db } from './db';
 import { RequestBody, ResquestPuppy } from './types';
-import { nextId } from './utils';
+import { nextId, getPuppyImage } from './utils';
 
 const app: Application = express();
 app.use(express.json());
@@ -15,11 +15,28 @@ app.get('/api/puppies', (_req: Request, res: Response) => {
   return res.status(200).json({ db: db });
 });
 
-app.get('/api/puppies/:id', (req: Request, res: Response) => {
-  const { id } = req.params;
-  const puppy = db.find(item => item.id === Number(id));
+app.get('/api/puppies/:id', async (req: Request, res: Response) => {
+  // const { id } = req.params;
+  // const puppy = db.find(item => item.id === Number(id));
 
-  return res.status(200).send(puppy);
+  // return res.status(200).send(puppy);
+  try {
+    const { id } = req.params;
+    const puppy = db.find(item => item.id === Number(id));
+
+    if (!puppy) {
+      return res.status(404).send('There is no such puppy');
+    }
+
+    const puppyBreed = puppy.breed.split(' ').join('+').toLowerCase();
+    const image = await getPuppyImage(puppyBreed);
+
+    const newPuppy = { ...puppy, image };
+
+    return res.status(200).send(newPuppy);
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
 });
 
 app.post('/api/puppies', (req: RequestBody<ResquestPuppy>, res: Response) => {
@@ -32,7 +49,7 @@ app.post('/api/puppies', (req: RequestBody<ResquestPuppy>, res: Response) => {
     birthDate,
   }
   db.push(newPuppy);
-  
+
   return res.status(201).send(db);
 });
 
@@ -58,7 +75,7 @@ app.delete('/api/puppies/:id', (req: Request, res: Response) => {
   const { id } = req.params;
 
   const newDb = db.filter(puppy => puppy.id !== Number(id));
-  
+
   return res.status(200).send(newDb);
 });
 
