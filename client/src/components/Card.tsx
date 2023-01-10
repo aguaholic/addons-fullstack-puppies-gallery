@@ -11,7 +11,7 @@ const Card = ({ puppy }: CardProps) => {
     <Link to={`/puppies/${puppy.id}`} className=''>
       <div className='max-w-sm m-auto rounded overflow-hidden shadow-lg mt-3'>
         <img src={puppy.image} alt={puppy.name} />
-        <div className="px-6 py-4">
+        <div className='px-6 py-4'>
           <p className='text-gray-700 text-base'>
             <span className='font-bold text-lg mb-2'>name:</span> {puppy.name}
           </p>

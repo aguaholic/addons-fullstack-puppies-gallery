@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Puppy } from '../../../types';
+import { AppContext, Data } from '../AppProvider';
 
 const Add = () => {
-  const [newPuppy, setNewPuppy] = useState<Puppy>({} as Puppy);
+  const { newPuppy, setNewPuppy } = useContext(AppContext) as Data;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPuppy({

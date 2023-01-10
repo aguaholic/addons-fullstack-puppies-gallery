@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import Card from './Card';
+import { useContext, useEffect } from 'react';
+import { AppContext, Data } from '../AppProvider';
 import { Puppy } from '../../../types';
+import Card from './Card';
 
 const Cards = () => {
-  const [puppies, setPuppies] = useState<Puppy[]>([]);
+  const { puppies, setPuppies } = useContext(AppContext) as Data;
 
   useEffect(() => {
     const getPuppies = async () => {
@@ -14,7 +15,8 @@ const Cards = () => {
 
     getPuppies();
   }, []);
-  console.log(puppies);
+  console.log('context', puppies);
+
   return (
     <div className='columns-2 md:columns-3 lg:columns-4'>
       {puppies.map((puppy: Puppy): any =>
