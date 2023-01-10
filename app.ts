@@ -8,18 +8,18 @@ const app: Application = express();
 app.use(express.json());
 
 app.get('/api/test', (_req: Request, res: Response) => {
-  return res.status(200).json({ test: 'it works as it should' });
+  return res
+    .status(200)
+    .json({ test: 'it works as it should' });
 });
 
 app.get('/api/puppies', (_req: Request, res: Response) => {
-  return res.status(200).json({ db: db });
+  return res
+    .status(200)
+    .json({ db: db });
 });
 
 app.get('/api/puppies/:id', async (req: Request, res: Response) => {
-  // const { id } = req.params;
-  // const puppy = db.find(item => item.id === Number(id));
-
-  // return res.status(200).send(puppy);
   try {
     const { id } = req.params;
     const puppy = db.find(item => item.id === Number(id));
@@ -33,9 +33,13 @@ app.get('/api/puppies/:id', async (req: Request, res: Response) => {
     const image = await getPuppyImage(puppyBreed);
     const newPuppy = { ...puppy, image };
 
-    return res.status(200).send(newPuppy);
+    return res
+      .status(200)
+      .json(newPuppy);
   } catch (error) {
-    return res.status(500).json({ error: error });
+    return res
+      .status(500)
+      .json({ error: error });
   }
 });
 
@@ -47,10 +51,14 @@ app.post('/api/puppies', (req: RequestBody<ResquestPuppy>, res: Response) => {
     name,
     breed,
     birthDate,
+    image: ''
   }
+
   db.push(newPuppy);
 
-  return res.status(201).send(db);
+  return res
+    .status(201)
+    .send(db);
 });
 
 app.put('/api/puppies/:id', (req: Request, res: Response) => {
@@ -64,11 +72,14 @@ app.put('/api/puppies/:id', (req: Request, res: Response) => {
     name,
     breed,
     birthDate,
+    image: '',
   }
 
   newDb.push(newPuppy);
 
-  return res.status(200).send(newDb);
+  return res
+    .status(200)
+    .send(newDb);
 });
 
 app.delete('/api/puppies/:id', (req: Request, res: Response) => {
@@ -76,7 +87,9 @@ app.delete('/api/puppies/:id', (req: Request, res: Response) => {
 
   const newDb = db.filter(puppy => puppy.id !== Number(id));
 
-  return res.status(200).send(newDb);
+  return res
+    .status(200)
+    .send(newDb);
 });
 
 export default app;

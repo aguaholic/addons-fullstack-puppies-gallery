@@ -17,7 +17,7 @@ const Cards = () => {
 
   return (
     <div className='columns-2 md:columns-3 lg:columns-4'>
-      {puppies?.map((puppy: Puppy): any =>
+      {puppies.map((puppy: Puppy): any =>
         <div key={puppy.id}>
           <Card puppy={puppy} />
         </div>

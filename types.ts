@@ -3,7 +3,7 @@ export interface Puppy {
   breed: string,
   name: string,
   birthDate: number,
-  image?: string,
+  image: string,
 };
 
 export interface RequestBody<T> extends Express.Request {
@@ -14,4 +14,5 @@ export interface ResquestPuppy {
   breed: string,
   name: string,
   birthDate: number,
+  image: string,
 }
