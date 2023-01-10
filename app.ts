@@ -29,8 +29,8 @@ app.get('/api/puppies/:id', async (req: Request, res: Response) => {
     }
 
     const puppyBreed = puppy.breed.split(' ').join('+').toLowerCase();
-    const image = await getPuppyImage(puppyBreed);
 
+    const image = await getPuppyImage(puppyBreed);
     const newPuppy = { ...puppy, image };
 
     return res.status(200).send(newPuppy);

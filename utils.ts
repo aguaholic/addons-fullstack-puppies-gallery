@@ -17,8 +17,7 @@ export const nextId = (puppiesDb: Puppy[]) => {
 
 export const getPuppyImage = async (breed: string) => {
   try {
-    const image = await axios.get(`https://api.unsplash.com/search/images?client_id=${ACCESS_KEY}&page=1&query=${breed}`);
-
+    const image = await axios.get(`https://api.unsplash.com/search/photos?client_id=${ACCESS_KEY}&page=1&query=${breed}`);
     return image.data.results[0].urls.small;
   } catch (error) {
     console.error();
