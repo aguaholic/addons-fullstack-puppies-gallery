@@ -14,7 +14,7 @@ const Cards = () => {
 
     getPuppies();
   }, []);
-
+  console.log(puppies);
   return (
     <div className='columns-2 md:columns-3 lg:columns-4'>
       {puppies.map((puppy: Puppy): any =>

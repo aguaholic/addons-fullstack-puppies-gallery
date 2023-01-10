@@ -28,10 +28,12 @@ app.get('/api/puppies/:id', async (req: Request, res: Response) => {
       return res.status(404).send('There is no such puppy');
     }
 
+    const index = db.findIndex(item => item.id === Number(id));
     const puppyBreed = puppy.breed.split(' ').join('+').toLowerCase();
 
     const image = await getPuppyImage(puppyBreed);
     const newPuppy = { ...puppy, image };
+    db.splice(index, 1, newPuppy);
 
     return res
       .status(200)
@@ -44,14 +46,14 @@ app.get('/api/puppies/:id', async (req: Request, res: Response) => {
 });
 
 app.post('/api/puppies', (req: RequestBody<ResquestPuppy>, res: Response) => {
-  const { name, breed, birthDate } = req.body;
+  const { name, breed, birthDate, image } = req.body;
 
   const newPuppy = {
     id: nextId(db),
     name,
     breed,
     birthDate,
-    image: ''
+    image,
   }
 
   db.push(newPuppy);
