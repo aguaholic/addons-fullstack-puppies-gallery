@@ -31,13 +31,15 @@ app.get('/api/puppies/:id', async (req: Request, res: Response) => {
     const index = db.findIndex(item => item.id === Number(id));
     const puppyBreed = puppy.breed.split(' ').join('+').toLowerCase();
 
-    const image = await getPuppyImage(puppyBreed);
-    const newPuppy = { ...puppy, image };
-    db.splice(index, 1, newPuppy);
+    if (!puppy.image) {
+      const image = await getPuppyImage(puppyBreed);
+      const newPuppy = { ...puppy, image };
+      db.splice(index, 1, newPuppy);
+    }
 
     return res
       .status(200)
-      .json(newPuppy);
+      .json(puppy);
   } catch (error) {
     return res
       .status(500)
@@ -45,8 +47,10 @@ app.get('/api/puppies/:id', async (req: Request, res: Response) => {
   }
 });
 
-app.post('/api/puppies', (req: RequestBody<ResquestPuppy>, res: Response) => {
-  const { name, breed, birthDate, image } = req.body;
+app.post('/api/puppies', async (req: RequestBody<ResquestPuppy>, res: Response) => {
+  const { name, breed, birthDate } = req.body;
+
+  const image = await getPuppyImage(breed);
 
   const newPuppy = {
     id: nextId(db),

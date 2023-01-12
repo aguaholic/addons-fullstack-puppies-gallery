@@ -12,15 +12,15 @@ const Card = ({ puppy }: CardProps) => {
       <div className='max-w-sm m-auto rounded overflow-hidden shadow-lg mt-3'>
         <img src={puppy.image} alt={puppy.name} />
         <div className='px-6 py-4'>
-          <p className='text-gray-700 text-base'>
-            <span className='font-bold text-lg mb-2'>name:</span> {puppy.name}
+          <p className='text-gray-700 font-bold text-lg mb-2'>
+            {puppy.name}
           </p>
-          <p className='text-gray-700 text-base'>
+          {/* <p className='text-gray-700 text-base'>
             <span className='font-bold text-lg mb-2'>breed:</span> {puppy.breed}
           </p>
           <p className='text-gray-700 text-base'>
             <span className='font-bold text-lg mb-2'>birth year:</span> {puppy.birthDate}
-          </p>
+          </p> */}
         </div>
       </div>
     </Link>

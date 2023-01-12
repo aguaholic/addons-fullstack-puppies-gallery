@@ -5,6 +5,7 @@ import { AppContext, Data } from '../AppProvider';
 
 const Add = () => {
   const { newPuppy, setNewPuppy } = useContext(AppContext) as Data;
+  const [isSuccessful, setIsSuccessful] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPuppy({
@@ -15,15 +16,28 @@ const Add = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     try {
       await axios.post('/api/puppies', newPuppy);
     } catch (error) {
       console.error();
     }
+
+    setIsSuccessful(true);
   }
 
   return (
     <>
+      {isSuccessful && (
+        <div className="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
+          <div className="bg-white px-20 py-12 rounded-md text-center">
+            <h1 className="text-xl mb-12 font-bold text-slate-500">Successfully added 😜</h1>
+            <Link to='/' className='bg-red-600 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold'>
+              go home
+            </Link>
+          </div>
+        </div>
+      )}
       <div className='flex justify-end mt-5 mr-5'>
         <Link
           to='/'
